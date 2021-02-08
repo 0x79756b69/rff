@@ -16,19 +16,18 @@
 - tauriにはNode.js等、他の依存関係がありますが、RFFはこのライブラリのみで完結します。
 
 ### RFF
-
+アプリケーションのビルド時。
 ```rust:main.rs
-use rff::{html::{load_css_files, load_js_files, build_html}, Color, AppConfig};
-use std::fs::read_to_string;
+use rff::{AppConfig, Color};
+use rff::html::{load_css_files, load_js_files, build_html};
+
+// ビルド時に同梱するコンテンツ
+static HTML: &'static str = include_str!("./src/index.html");
 
 fn main() {
-    let html = read_to_string("./src/view/index.html").unwrap();
-    let css = load_css_files(["./src/view/lib/primary/css", "./src/view/lib/secondary/css"].to_vec());
-    let js = load_js_files(["./src/view/lib/primary/js", "./src/view/my_lib/secondary/js"].to_vec());
-    let contents = build_html(html, css, js);
-
+    // コンフィグの設定
     let config = AppConfig {
-        app_title: String::from("Example Application"),
+        app_title: String::from("Application Name"),
         window_width: 800,
         window_height: 800,
         window_resizable: true,
@@ -41,15 +40,34 @@ fn main() {
         },
         window_frameless: false
     };
+    // アプリケーションの開始
     rff::launch(config, contents);
+}
+```
+尚、一つのhtmlファイルにJS, CSS, 画像を詰める必要があります。
+
+大丈夫です。 HTMLのビルド（ひとつのファイルにまとめる）時のヘルパーを用意しています。
+```rust:main.rs
+use rff::html::{load_css_files, load_js_files, build_html};
+use std::fs::read_to_string;
+
+fn main() {
+    let html = read_to_string("./src/view/index.html").unwrap_or("".to_string());
+    let css = load_css_files(["./src/view/lib/css", "./src/view/my_lib/css"].to_vec());
+    let js = load_js_files(["./src/view/lib/js", "./src/view/my_lib/js"].to_vec());
+    let contents = build_html(html, css, js);
+    add_file("./src/index.html", contents);
 }
 
 ```
+
+## 使い方
 データやウィンドウの操作については、JS側からAPIを叩く。
 
 上で読み込んでいるindex.html内には、`{LOAD_JS}`と`{LOAD_CSS}`があり、そこにjsとcssが挿入される。
 
-詳細はexamplesを参照。
+詳細はexamplesディレクトリを参照。
+
 
 ## 比較
 このライブラリのシンプルさに関しては、以下で書かれているコードと比較してください。
