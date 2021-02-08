@@ -19,13 +19,11 @@
 アプリケーションのビルド時。
 ```rust:main.rs
 use rff::{AppConfig, Color};
-use rff::html::{load_css_files, load_js_files, build_html};
 
-// ビルド時に同梱するコンテンツ
-static HTML: &'static str = include_str!("./src/index.html");
+// ビルド時に同梱するファイル
+static HTML: &'static str = include_str!("index.html");
 
 fn main() {
-    // コンフィグの設定
     let config = AppConfig {
         app_title: String::from("Application Name"),
         window_width: 800,
@@ -41,7 +39,7 @@ fn main() {
         window_frameless: false
     };
     // アプリケーションの開始
-    rff::launch(config, contents);
+    rff::launch(config, String::from(HTML));
 }
 ```
 尚、一つのhtmlファイルにJS, CSS, 画像を詰める必要があります。
