@@ -50,6 +50,7 @@ fn main() {
 ```rust:main.rs
 use rff::html::{load_css_files, load_js_files, build_html};
 use std::fs::read_to_string;
+use rff::data_controller::add_file;
 
 fn main() {
     let html = read_to_string("./src/view/index.html").unwrap_or("".to_string());
