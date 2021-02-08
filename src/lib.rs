@@ -40,7 +40,7 @@ fn make_gui<'a>(cfg: AppConfig, html: &'a str, name: &'a str) -> WebView<'a, Has
         .title(name)
         .content(Content::Html(html))
         .size(cfg.window_width, cfg.window_height)
-        .frameless(true)
+        .frameless(cfg.window_frameless)
         .resizable(cfg.window_resizable)
         .debug(cfg.app_debug)
         .user_data(HashMap::new())
