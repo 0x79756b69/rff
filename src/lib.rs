@@ -13,7 +13,7 @@ extern crate serde_derive;
 extern crate serde_json;
 
 pub fn launch(config: AppConfig, html : String) {
-    println!("Launching GUI ...");
+    // println!("Launching GUI ...");
     let name = config.app_title.clone();
     let webview = make_gui(config, &html, &*name);
     webview.run().unwrap();
@@ -25,6 +25,7 @@ fn execute(wv: &mut WebView<HashMap<&str, &str>>, cmd: &str) -> WVResult {
     let a: CmdReceive = serde_json::from_str(cmd).unwrap();
     println!("{:?}", a);
     // wv.set_title("a");
+    // wv.set_visibility(true); で Windowをつくる（見かけ上）
     let result = wv.eval(&format!("acc_list_display({})", serde_json::to_string("aaaaa").unwrap()));
     result
 }
