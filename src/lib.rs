@@ -1,7 +1,8 @@
 mod structs;
 mod helper;
 
-use structs::{AppConfig, CmdReceive};
+pub use structs::{AppConfig, CmdReceive};
+pub use helper::*;
 
 use web_view::*;
 use std::collections::HashMap;
@@ -17,6 +18,15 @@ pub fn launch(config: AppConfig, html : String) {
     webview.run().unwrap();
 }
 
+// When API Called
+fn execute(wv: &mut WebView<HashMap<&str, &str>>, cmd: &str) -> WVResult {
+    // change_title, exit, save_data, http_request,
+    let a: CmdReceive = serde_json::from_str(cmd).unwrap();
+    println!("{:?}", a);
+    // wv.set_title("a");
+    let result = wv.eval(&format!("acc_list_display({})", serde_json::to_string("aaaaa").unwrap()));
+    result
+}
 
 // ## WebView API
 // webview.eval(&format!("updateTicks({}, {})", counter, user_data))
@@ -29,6 +39,7 @@ fn make_gui<'a>(cfg: AppConfig, html: &'a str, name: &'a str) -> WebView<'a, Has
         .title(name)
         .content(Content::Html(html))
         .size(cfg.window_width, cfg.window_height)
+        .frameless(true)
         .resizable(cfg.window_resizable)
         .debug(cfg.app_debug)
         .user_data(HashMap::new())
@@ -48,15 +59,6 @@ fn make_gui<'a>(cfg: AppConfig, html: &'a str, name: &'a str) -> WebView<'a, Has
         .unwrap();
     webview.set_color(cfg.window_rgba);
     webview
-}
-
-fn execute(wv: &mut WebView<HashMap<&str, &str>>, cmd: &str) -> WVResult {
-    // change_title, exit, save_data, http_request,
-    let a: CmdReceive = serde_json::from_str(cmd).unwrap();
-    println!("{:?}", a);
-    // wv.set_title("a");
-    let result = wv.eval(&format!("acc_list_display({})", serde_json::to_string("aaaaa").unwrap()));
-    result
 }
 
 #[derive(Deserialize)]

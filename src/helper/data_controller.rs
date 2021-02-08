@@ -1,26 +1,4 @@
-use std::path::{Path};
 use std::fs;
-use std::io::Write;
-
-
-
-pub fn file_exist(path: &str) -> bool {
-    println!("{:?}", path);
-    Path::new(path).exists()
-}
-// pub fn read_file_contents
-
-pub fn add_file(path: &str, data: String) -> bool {
-    if file_exist(path) {
-        // File is exist
-        return false
-    }
-    let mut file = fs::File::create(&path).unwrap();
-    match file.write_all(data.as_ref()) {
-        Ok(_) => {true}
-        Err(_) => {false}
-    }
-}
 
 
 pub fn get_files_from_dir(rtn_full_path: bool, sort_filetype: &str, path: &str) -> Vec<String>{
