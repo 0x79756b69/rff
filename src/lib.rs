@@ -3,6 +3,7 @@ mod helper;
 
 pub use structs::{AppConfig, CmdReceive};
 pub use helper::*;
+pub use web_view::Color;
 
 use web_view::*;
 use std::collections::HashMap;
@@ -68,3 +69,5 @@ pub enum Cmd {
         ctrl : String
     },
 }
+
+
