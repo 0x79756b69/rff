@@ -1,3 +1,7 @@
+### Notice
+このソフトウェアはまだ開発段階です。
+- JS APIの変更が頻繁に起こります。
+- セキュリティの検証がまだです。
 ## Rust Friendly Framework (RFF)
 
 現状、Rustには[tauri](https://github.com/tauri-apps/tauri) などのGUIフレームワークが存在しますが、作者からするとあまり美しいインターフェイスとは思えません。
@@ -57,7 +61,6 @@ fn main() {
     let contents = build_html(html, css, js);
     add_file("./src/index.html", contents);
 }
-
 ```
 
 ## 使い方
@@ -84,4 +87,19 @@ tauriの[examples](https://github.com/tauri-apps/examples/tree/dev/tauri/communi
 3. htmlビルド時にデフォルトでJSとCSSの圧縮。
 4. APIがまだ同期処理しか対応してない。→非同期に対応する。(かも)
 
+### 提供API
+#### data
+KVストア RocksDBを使用か（？）
+- .insert(key, value)
+- .find(key)
+
+#### window
+ウィンドウ関連のイベント
+- マルチウィンドウ（インスタンス）
+- ウィンドウ無効化
+- フルスクリーン変更
+- タイトル変更
+
+#### http
+JSからHTTP送信できるけど？ここらへんはセキュリティを含め要検討
 
