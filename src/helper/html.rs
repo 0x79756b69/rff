@@ -5,7 +5,7 @@ use std::fs::read_to_string;
 static JS_API: &'static str = include_str!("../api.js");
 
 pub fn build_html(mut html: String, css :String, mut js: String) -> String {
-    js += JS_API;
+    js += &format!(r#"<script type="text/javascript">{}</script>"#, JS_API);
     html = html.replace("{LOAD_JS}", &js);
     html = html.replace("{LOAD_CSS}", &css);
     html
