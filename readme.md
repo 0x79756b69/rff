@@ -16,7 +16,7 @@
 - tauriにはNode.js等、他の依存関係がありますが、RFFはこのライブラリのみで完結します。
 
 ### RFF
-アプリケーションのビルド時。
+アプリケーション本体。
 ```rust:main.rs
 use rff::{AppConfig, Color};
 
@@ -45,10 +45,10 @@ fn main() {
 尚、一つのhtmlファイルにJS, CSS, 画像を詰める必要があります。
 
 大丈夫です。 HTMLのビルド（ひとつのファイルにまとめる）時のヘルパーを用意しています。
-```rust:main.rs
+```rust:build.rs
 use rff::html::{load_css_files, load_js_files, build_html};
-use std::fs::read_to_string;
 use rff::data_controller::add_file;
+use std::fs::read_to_string;
 
 fn main() {
     let html = read_to_string("./src/view/index.html").unwrap_or("".to_string());
@@ -65,7 +65,7 @@ fn main() {
 
 上で読み込んでいるindex.html内には、`{LOAD_JS}`と`{LOAD_CSS}`があり、そこにjsとcssが挿入される。
 
-詳細はexamplesディレクトリを参照。
+詳細は*examples*ディレクトリを参照。
 
 
 ## 比較
@@ -79,10 +79,9 @@ tauriの[examples](https://github.com/tauri-apps/examples/tree/dev/tauri/communi
 
 ## WIP Memo
 
-APIを提供する
-
-APIについてドキュメント書く。
-
-まだ同期処理しか対応してない。→非同期に対応する。(かも)
+1. APIを提供する
+2. APIについてドキュメント書く。
+3. htmlビルド時にデフォルトでJSとCSSの圧縮。
+4. APIがまだ同期処理しか対応してない。→非同期に対応する。(かも)
 
 
