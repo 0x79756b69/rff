@@ -13,19 +13,18 @@ extern crate serde_derive;
 extern crate serde_json;
 
 pub fn launch(config: AppConfig, html : String) {
-    // println!("Launching GUI ...");
     let name = config.app_title.clone();
-    let webview = make_gui(config, &html, &*name);
-    webview.run().unwrap();
+    let wv = make_gui(config, &html, &*name);
+    wv.run().unwrap();
 }
 
 // When API Called
 fn execute(wv: &mut WebView<HashMap<&str, &str>>, cmd: &str) -> WVResult {
-    // change_title, exit, save_data, http_request,
     let a: CmdReceive = serde_json::from_str(cmd).unwrap();
     println!("{:?}", a);
     // wv.set_title("a");
     // wv.set_visibility(true); で Windowをつくる（見かけ上）
+    // webview.eval(&format!("notify_success({})", serde_json::to_string(&("Switched to ".to_owned() + arg)).unwrap()));
     let result = wv.eval(&format!("acc_list_display({})", serde_json::to_string("aaaaa").unwrap()));
     result
 }
@@ -35,8 +34,6 @@ fn execute(wv: &mut WebView<HashMap<&str, &str>>, cmd: &str) -> WVResult {
 // exit() : Window exit
 
 fn make_gui<'a>(cfg: AppConfig, html: &'a str, name: &'a str) -> WebView<'a, HashMap<&'a str, &'a str>>{
-    // -> WebView<HashMap<&str, &str>>
-    // cfg.handler;
     let mut webview = web_view::builder()
         .title(name)
         .content(Content::Html(html))
@@ -51,9 +48,7 @@ fn make_gui<'a>(cfg: AppConfig, html: &'a str, name: &'a str) -> WebView<'a, Has
                 let result = match serde_json::from_str(arg).unwrap() {
                     // API CALL
                     E {ctrl} => execute(webview, &ctrl)
-                    // Other INTERNAL CALL
                 };
-                // println!("{:?}", arg);
                 result
             }
         )
@@ -72,3 +67,10 @@ pub enum Cmd {
 }
 
 
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn ex() {
+        assert_eq!(2 + 2, 4);
+    }
+}
