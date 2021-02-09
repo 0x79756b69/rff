@@ -3,11 +3,12 @@ use std::io::Write;
 use std::path::Path;
 
 
-pub fn add_file(path: &str, data: String) -> bool {
-    if file_exist(path) {
-        // File is exist
-        return false
-    }
+pub fn create_file(path: &str, data: String) -> bool {
+    // Destroy and Create new file
+    // if file_exist(path) {
+    //     // File is exist
+    //     return false
+    // }
     let mut file = fs::File::create(&path).unwrap();
     match file.write_all(data.as_ref()) {
         Ok(_) => {true}
