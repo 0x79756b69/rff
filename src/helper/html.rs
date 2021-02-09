@@ -2,9 +2,10 @@
 use crate::helper::data_controller::get_files_from_dir;
 use std::fs::read_to_string;
 
+static JS_API: &'static str = include_str!("../api.js");
+
 pub fn build_html(mut html: String, css :String, mut js: String) -> String {
-    let apilib = load_js_files(vec!["./src/js/"]);
-    js += &apilib;
+    js += JS_API;
     html = html.replace("{LOAD_JS}", &js);
     html = html.replace("{LOAD_CSS}", &css);
     html
