@@ -35,10 +35,10 @@ Cmd = (function () {
     var data = function () {};
     // 各実装
     data.prototype = {
-        insert: function (key, value, callback) {
+        insert: function (key, value) {
             this.type = Cmds.DataInsert;
             let query = JSON.stringify({key: key, value: value});
-            this.receive = request_to_rust(this.type, callback, query);
+            this.receive = request_to_rust(this.type, "dummy", query);
             return this.receive;
         },
         select: function (key, callback) {
@@ -47,10 +47,10 @@ Cmd = (function () {
             let query = JSON.stringify({key: key});
             request_to_rust(this.type, callback, query);
         },
-        delete: function (key, callback) {
+        delete: function (key) {
             this.type = Cmds.DataDelete;
             let query = JSON.stringify({key: key});
-            request_to_rust(this.type, callback, query);
+            request_to_rust(this.type, "dummy", query);
         }
     };
     /** WINDOW **/
