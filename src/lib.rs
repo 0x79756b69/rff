@@ -1,12 +1,14 @@
 mod structs;
 mod helper;
+mod handler;
 
-pub use structs::{AppConfig, CmdReceive};
+pub use structs::{AppConfig};
 pub use helper::*;
 pub use web_view::Color;
 
 use web_view::*;
-use std::collections::HashMap;
+use crate::structs::Cmd::*;
+use crate::handler::*;
 
 #[macro_use]
 extern crate serde_derive;
@@ -18,22 +20,13 @@ pub fn launch(config: AppConfig, html : String) {
     wv.run().unwrap();
 }
 
-// When API Called
-fn execute(wv: &mut WebView<HashMap<&str, &str>>, cmd: &str) -> WVResult {
-    let a: CmdReceive = serde_json::from_str(cmd).unwrap();
-    println!("{:?}", a);
-    // wv.set_title("a");
-    // wv.set_visibility(true); で Windowをつくる（見かけ上）
-    // webview.eval(&format!("notify_success({})", serde_json::to_string(&("Switched to ".to_owned() + arg)).unwrap()));
-    let result = wv.eval(&format!("acc_list_display({})", serde_json::to_string("aaaaa").unwrap()));
-    result
-}
 
 // ## WebView API
 // webview.eval(&format!("updateTicks({}, {})", counter, user_data))
 // exit() : Window exit
 
-fn make_gui<'a>(cfg: AppConfig, html: &'a str, name: &'a str) -> WebView<'a, HashMap<&'a str, &'a str>>{
+fn make_gui<'a>(cfg: AppConfig, html: &'a str, name: &'a str) -> WebView<'a, ()>{
+    let db_path = cfg.db_path.clone();
     let mut webview = web_view::builder()
         .title(name)
         .content(Content::Html(html))
@@ -41,13 +34,14 @@ fn make_gui<'a>(cfg: AppConfig, html: &'a str, name: &'a str) -> WebView<'a, Has
         .frameless(cfg.window_frameless)
         .resizable(cfg.window_resizable)
         .debug(cfg.app_debug)
-        .user_data(HashMap::new())
+        .user_data(())
         .invoke_handler(
-            |webview, arg| {
-                use Cmd::*;
+            move |webview, arg| {
                 let result = match serde_json::from_str(arg).unwrap() {
                     // API CALL
-                    E {ctrl} => execute(webview, &ctrl)
+                    DataInsert {param} => d_insert(webview, param, db_path.clone()),
+                    DataFetch {param} =>  d_fetch(webview, param, db_path.clone()),
+                    DataDelete {param} =>  d_delete(webview, param, db_path.clone()),
                 };
                 result
             }
@@ -56,21 +50,4 @@ fn make_gui<'a>(cfg: AppConfig, html: &'a str, name: &'a str) -> WebView<'a, Has
         .unwrap();
     webview.set_color(cfg.window_rgba);
     webview
-}
-
-#[derive(Deserialize)]
-#[serde(tag = "cmd", rename_all = "camelCase")]
-pub enum Cmd {
-    E {
-        ctrl : String
-    },
-}
-
-
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn ex() {
-        assert_eq!(2 + 2, 4);
-    }
 }

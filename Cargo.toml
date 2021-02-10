@@ -6,6 +6,7 @@ edition = "2018"
 
 [dependencies]
 web-view = {git = "https://github.com/Boscop/web-view", rev = "abb0721829d9764d07d8df08c249de9b27cd7447"}
+sled = "0.34.6"
 serde = "1.0.118"
 serde_derive = "1.0.118"
 serde_json = "1.0.60"

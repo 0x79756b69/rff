@@ -21,7 +21,7 @@
 
 ### RFF
 アプリケーション本体。
-```rust:main.rs
+```rust
 use rff::{AppConfig, Color};
 
 // ビルド時に同梱するファイル
@@ -49,7 +49,7 @@ fn main() {
 尚、一つのhtmlファイルにJS, CSS, 画像を詰める必要があります。
 
 大丈夫です。 HTMLのビルド（ひとつのファイルにまとめる）時のヘルパーを用意しています。
-```rust:build.rs
+```rust
 use rff::html::{load_css_files, load_js_files, build_html};
 use rff::data_controller::add_file;
 use std::fs::read_to_string;
@@ -80,6 +80,38 @@ Web-viewのExamplesディテクトリ下の[ToDoアプリ](https://github.com/Bo
 tauriの[examples](https://github.com/tauri-apps/examples/tree/dev/tauri/communication)
 
 
+## 提供API
+### data
+KVストア。
+- 追加
+- 選択
+- 削除
+
+#### insert
+```js
+let d = new Cmd.data();
+d.insert("KEY", "VALUE");
+```
+
+#### select
+```js
+// CALLBACK FUNCTION MUST HAVE ARGUMENT THAT RECEIVE A VALUE FROM DB
+let callbackfn = function(data) {
+    alert(data); // Alert a value from DB
+}
+d.select("KEY");
+```
+
+#### delete
+```js
+d.delete("KEY");
+```
+
+
+
+
+
+
 ## WIP Memo
 
 1. APIを提供する
@@ -87,11 +119,6 @@ tauriの[examples](https://github.com/tauri-apps/examples/tree/dev/tauri/communi
 3. htmlビルド時にデフォルトでJSとCSSの圧縮。
 4. APIがまだ同期処理しか対応してない。→非同期に対応する。(かも)
 
-### 提供API
-#### data
-KVストア RocksDBを使用か（？）
-- .insert(key, value)
-- .find(key)
 
 #### window
 ウィンドウ関連のイベント
