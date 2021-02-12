@@ -1,25 +1,20 @@
-### Notice
-このソフトウェアはまだ開発段階です。
-- JS APIの変更が頻繁に起こります。
-- セキュリティの検証がまだです。
 ## Rust Friendly Framework (RFF)
 
+### 概要
 現状、Rustには[tauri](https://github.com/tauri-apps/tauri) などのGUIフレームワークが存在しますが、作者からするとあまり美しいインターフェイスとは思えません。
 
 そこで、現状と比較して機能は少ない(今後アップデートする可能性もある)ですが、以下の特徴を備えたGUIアプリケーション作成のためのライブラリを制作しました。
 
 - Mac, Linux, Windowsに対応したGUIのソフトウェアを爆速でつくれる。
 - Rustの知識がほとんど不要でつくれる。
+- Web-viewやtauriよりも美しいインターフェイスを提供します。
+- tauriにはNode.js等、他の依存関係がありますが、このライブラリは以下のインポートのみで完結します。
 
-## デザイン
-責任は基本的にJavascriptが負いますが、このライブラリが提供するAPI実行の責任はRustが負います。
+`rff = {git = "https://github.com/0x79756b69/rff", branch = "main"}`
 
-## インターフェイス
-このライブラリの内部では[Web-view](https://github.com/Boscop/web-view) が使用されています。
-- Web-viewやtauriよりも使いやすいインターフェイスを提供します。
-- tauriにはNode.js等、他の依存関係がありますが、RFFはこのライブラリのみで完結します。
+- [もっと見る](http://zenn.dev/0x/articles/ae4ce76f58ee65)
 
-### RFF
+### どのように書けるか
 アプリケーション本体。
 ```rust
 use rff::{AppConfig, Color};
@@ -47,8 +42,7 @@ fn main() {
 }
 ```
 尚、一つのhtmlファイルにJS, CSS, 画像を詰める必要があります。
-
-大丈夫です。 HTMLのビルド（ひとつのファイルにまとめる）時のヘルパーを用意しています。
+そのため、HTMLのビルド（ひとつのファイルにまとめる）時のヘルパーを用意しています。
 ```rust
 use rff::html::{load_css_files, load_js_files, build_html};
 use rff::data_controller::add_file;
@@ -71,7 +65,7 @@ fn main() {
 詳細は*examples*ディレクトリを参照。
 
 
-## 比較
+## コード比較
 このライブラリのシンプルさに関しては、以下で書かれているコードと比較してください。
 ### Web-view
 Web-viewのExamplesディテクトリ下の[ToDoアプリ](https://github.com/Boscop/web-view/blob/master/examples/todo.rs) や有志によるQiitaでの[紹介記事](https://qiita.com/osanshouo/items/7966ecbd41bc3ce611dd)
@@ -99,7 +93,7 @@ d.insert("KEY", "VALUE");
 let callbackfn = function(data) {
     alert(data); // Alert a value from DB
 }
-d.select("KEY");
+d.select("KEY", callbackfn);
 ```
 
 #### delete
@@ -108,25 +102,35 @@ d.delete("KEY");
 ```
 
 
+## Notice
+このソフトウェアはまだ開発段階です。
+- APIの変更が起こります。
+- セキュリティの検証がまだです。
+
+[comment]: <> (## WIP Memo)
+
+[comment]: <> (1. APIを提供する)
+
+[comment]: <> (2. APIについてドキュメント書く。)
+
+[comment]: <> (3. htmlビルド時にデフォルトでJSとCSSの圧縮。)
+
+[comment]: <> (4. APIがまだ同期処理しか対応してない。→非同期に対応する。&#40;かも&#41;)
 
 
+[comment]: <> (#### window)
 
+[comment]: <> (ウィンドウ関連のイベント)
 
-## WIP Memo
+[comment]: <> (- マルチウィンドウ（インスタンス）)
 
-1. APIを提供する
-2. APIについてドキュメント書く。
-3. htmlビルド時にデフォルトでJSとCSSの圧縮。
-4. APIがまだ同期処理しか対応してない。→非同期に対応する。(かも)
+[comment]: <> (- ウィンドウ無効化)
 
+[comment]: <> (- フルスクリーン変更)
 
-#### window
-ウィンドウ関連のイベント
-- マルチウィンドウ（インスタンス）
-- ウィンドウ無効化
-- フルスクリーン変更
-- タイトル変更
+[comment]: <> (- タイトル変更)
 
-#### http
-JSからHTTP送信できるけど？ここらへんはセキュリティを含め要検討
+[comment]: <> (#### http)
+
+[comment]: <> (JSからHTTP送信できるけど？ここらへんはセキュリティを含め要検討)
 
