@@ -10,8 +10,8 @@ function receiver_from_rust(arg) {
     // alert(JSON.stringify(arg));
     switch (arg.t) {
         case Cmds.DataInsert:
-            alert(arg.callback);
-            alert("DATA ins CALLED");
+            // alert(arg.callback);
+            // alert("DATA ins CALLED");
             break
         case Cmds.DataFetch:
             let param = JSON.parse(arg.param);
@@ -20,8 +20,8 @@ function receiver_from_rust(arg) {
             func.call(null).call(null, param.v ); //invoke the function using arguments
             break
         case Cmds.DataDelete:
-            alert(eval(arg.callback));
-            alert("DATA DELETE CALLED");
+            // alert(eval(arg.callback));
+            // alert("DATA DELETE CALLED");
             break
     }
     // arg -> {type, data}
