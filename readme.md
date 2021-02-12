@@ -14,6 +14,8 @@
 
 - [もっと見る](http://zenn.dev/0x/articles/ae4ce76f58ee65)
 
+[![](http://img.youtube.com/vi/xgTBCUP3aq4/0.jpg)](http://www.youtube.com/watch?v=xgTBCUP3aq4 "")
+
 ### どのように書けるか
 アプリケーション本体。
 ```rust
