@@ -1,5 +1,5 @@
 
-use crate::helper::data_controller::get_files_from_dir;
+use crate::helper::data::get_files_from_dir;
 use std::fs::read_to_string;
 
 static JS_API: &'static str = include_str!("../api.js");

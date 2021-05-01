@@ -8,7 +8,8 @@ pub use web_view::Color;
 
 use web_view::*;
 use crate::structs::Cmd::*;
-use crate::handler::*;
+use crate::handler::window_handler::*;
+use crate::handler::data_handler::*;
 
 #[macro_use]
 extern crate serde_derive;
@@ -42,6 +43,9 @@ fn make_gui<'a>(cfg: AppConfig, html: &'a str, name: &'a str) -> WebView<'a, ()>
                     DataInsert {param} => d_insert(webview, param, db_path.clone()),
                     DataFetch {param} =>  d_fetch(webview, param, db_path.clone()),
                     DataDelete {param} =>  d_delete(webview, param, db_path.clone()),
+                    WindowFullscreen {param} => w_fullscreen(webview, param),
+                    // WindowShow {param} =>  w_show(webview, param),
+                    // WindowHide {param} =>  w_hide(webview, param),
                 };
                 result
             }

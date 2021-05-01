@@ -91,7 +91,6 @@ d.insert("KEY", "VALUE");
 
 #### select
 ```js
-// CALLBACK FUNCTION MUST HAVE ARGUMENT THAT RECEIVE A VALUE FROM DB
 let callbackfn = function(data) {
     alert(data); // Alert a value from DB
 }
@@ -103,12 +102,26 @@ d.select("KEY", callbackfn);
 d.delete("KEY");
 ```
 
+### window
+- Fullscreen
+- Notify(予定)
 
-## Notice
+#### fullscreen
+```js
+let w = new Cmd.window();
+w.set_fullscreen(true) // boolで指定
+```
+
+
+## Notice & ToDo
 このソフトウェアはまだ開発段階です。
 - 暇なときに、次のAPIを追加する予定です。
     - ウィンドウ関係
+- コードを整理する
+    - アプリのBuilderかく
 - セキュリティの検証がまだです。（が、**誰かが書いたJSファイルを読み込むようなソフトウェア向けにはつくっていません。**）
+
+
 
 [comment]: <> (## WIP Memo)
 

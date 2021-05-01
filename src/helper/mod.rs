@@ -1,2 +1,2 @@
 pub mod html;
-pub mod data_controller;
+pub mod data;
