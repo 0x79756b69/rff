@@ -2,6 +2,7 @@ use web_view::{WebView, WVResult};
 
 use crate::structs::*;
 use serde_json::json;
+use crate::make_gui;
 
 // When API Called
 pub fn w_fullscreen(wv: &mut WebView<()>, cmd: String) -> WVResult {
@@ -14,12 +15,31 @@ pub fn w_fullscreen(wv: &mut WebView<()>, cmd: String) -> WVResult {
     let val = CmdSend{
         t: "windowFullscreen".to_string(),
         callback: None,
-        param: String::from("")
+        param: None
     };
     let result = wv.eval(&format!("receiver_from_rust({})", serde_json::to_string(&val).unwrap()));
     result
 }
 
+// Todo: 以下より現時点ではDummy。なんとかする。
+pub fn w_change_title(wv: &mut WebView<()>, cmd: String) -> WVResult {
+    let val = CmdSend{
+        t: "windowChangetitle".to_string(),
+        callback: None,
+        param: None
+    };
+    let result = wv.eval(&format!("receiver_from_rust({})", serde_json::to_string(&val).unwrap()));
+    result
+}
+pub fn w_exit(wv: &mut WebView<()>, cmd: String) -> WVResult {
+    let val = CmdSend{
+        t: "windowExit".to_string(),
+        callback: None,
+        param: None
+    };
+    let result = wv.eval(&format!("receiver_from_rust({})", serde_json::to_string(&val).unwrap()));
+    result
+}
 // pub fn w_notify(wv: &mut WebView<()>, cmd: String) {
 //     println!("{:?}", cmd);
 //     let st = cmd.into_wnotify();
@@ -32,7 +52,7 @@ pub fn w_show(wv: &mut WebView<()>, cmd: String) -> WVResult {
     let val = CmdSend{
         t: "windowShow".to_string(),
         callback: None,
-        param: String::from("")
+        param: None
     };
     let result = wv.eval(&format!("receiver_from_rust({})", serde_json::to_string(&val).unwrap()));
     result
@@ -43,7 +63,7 @@ pub fn w_hide(wv: &mut WebView<()>, cmd: String) -> WVResult {
     let val = CmdSend{
         t: "windowHide".to_string(),
         callback: None,
-        param: String::from("")
+        param: None
     };
     let result = wv.eval(&format!("receiver_from_rust({})", serde_json::to_string(&val).unwrap()));
     result

@@ -13,7 +13,7 @@ pub fn d_insert(wv: &mut WebView<()>, cmd: String, db: String) -> WVResult {
     let val = CmdSend{
         t: "dataInsert".to_string(),
         callback: None,
-        param: String::from("")
+        param: None
     };
     let result = wv.eval(&format!("receiver_from_rust({})", serde_json::to_string(&val).unwrap()));
     result
@@ -33,7 +33,7 @@ pub fn d_fetch(wv: &mut WebView<()>, cmd: String, db: String) -> WVResult {
     let val = CmdSend{
         t: "dataFetch".to_string(),
         callback: Option::from(st.callback),
-        param: serde_json::to_string(&v).unwrap()
+        param: Option::from(serde_json::to_string(&v).unwrap())
     };
     let result = wv.eval(&format!("receiver_from_rust({})", serde_json::to_string(&val).unwrap()));
     result
@@ -46,7 +46,7 @@ pub fn d_delete(wv: &mut WebView<()>, cmd: String, db: String) -> WVResult {
     let val = CmdSend{
         t: "dataDelete".to_string(),
         callback: None,
-        param: String::from("")
+        param: None
     };
     let result = wv.eval(&format!("receiver_from_rust({})", serde_json::to_string(&val).unwrap()));
     result

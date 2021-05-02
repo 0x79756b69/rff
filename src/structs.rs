@@ -19,7 +19,7 @@ pub struct AppConfig {
 pub struct CmdSend {
     pub t : String, // Todo : もうこれとか最悪。
     pub callback: Option<String>,
-    pub param: String,
+    pub param: Option<String>,
 }
 #[derive(Debug, Deserialize)]
 pub struct DataInsertSt {
