@@ -1,4 +1,4 @@
-use web_view::{WebView, WVResult};
+use web_view::{WebView, WVResult, Content};
 
 use crate::structs::*;
 use serde_json::json;

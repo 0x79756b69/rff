@@ -15,21 +15,15 @@ use crate::handler::data_handler::*;
 extern crate serde_derive;
 extern crate serde_json;
 
-pub fn launch(config: AppConfig, html : String) {
-    let name = config.app_title.clone();
-    let wv = make_gui(config, &html, &*name);
-    wv.run().unwrap();
-}
-
 
 // ## WebView API
 // webview.eval(&format!("updateTicks({}, {})", counter, user_data))
 // exit() : Window exit
 
-fn make_gui<'a>(cfg: AppConfig, html: &'a str, name: &'a str) -> WebView<'a, ()>{
+pub fn make_gui<'a>(cfg: AppConfig, html: &'a str, title: &'a str) -> WebView<'a, ()>{
     let db_path = cfg.db_path.clone();
     let mut webview = web_view::builder()
-        .title(name)
+        .title(title)
         .content(Content::Html(html))
         .size(cfg.window_width, cfg.window_height)
         .frameless(cfg.window_frameless)
@@ -44,6 +38,7 @@ fn make_gui<'a>(cfg: AppConfig, html: &'a str, name: &'a str) -> WebView<'a, ()>
                     DataFetch {param} =>  d_fetch(webview, param, db_path.clone()),
                     DataDelete {param} =>  d_delete(webview, param, db_path.clone()),
                     WindowFullscreen {param} => w_fullscreen(webview, param),
+                    // WindowNotify {param} => Ok(w_notify(&mut notify, param)),
                     // WindowShow {param} =>  w_show(webview, param),
                     // WindowHide {param} =>  w_hide(webview, param),
                 };

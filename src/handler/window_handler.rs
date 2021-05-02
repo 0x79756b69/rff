@@ -20,6 +20,13 @@ pub fn w_fullscreen(wv: &mut WebView<()>, cmd: String) -> WVResult {
     result
 }
 
+// pub fn w_notify(wv: &mut WebView<()>, cmd: String) {
+//     println!("{:?}", cmd);
+//     let st = cmd.into_wnotify();
+//     wv.set_html(&*st.html);
+//     wv.set_visible(true);
+// }
+
 pub fn w_show(wv: &mut WebView<()>, cmd: String) -> WVResult {
     wv.set_visible(true);
     let val = CmdSend{

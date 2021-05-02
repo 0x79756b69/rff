@@ -2,7 +2,6 @@
 
 #[derive(Debug, Clone)]
 pub struct AppConfig {
-    pub app_title: String,
     pub app_debug : bool,
     pub window_width : i32,
     pub window_height : i32,
@@ -37,8 +36,13 @@ pub struct DataDeleteSt {
     pub key : String
 }
 #[derive(Debug, Deserialize)]
-pub struct WindowFullscreen {
+pub struct WindowFullscreenSt {
     pub bool : bool
+}
+#[derive(Debug, Deserialize)]
+pub struct WindowNotifySt {
+    pub html : String
+    // pub time : i32
 }
 #[derive(Debug, Deserialize)]
 pub struct WindowShowSt {
@@ -67,6 +71,9 @@ pub enum Cmd {
     WindowFullscreen {
         param : String
     },
+    // WindowNotify {
+    //     param : String
+    // }
     // WindowShow {
     //     param : String
     // },
@@ -81,7 +88,8 @@ pub trait CmdParser {
     fn into_dfet(&self) -> DataFetchSt;
     fn into_ddel(&self) -> DataDeleteSt;
 
-    fn into_wfullscreen(&self) -> WindowFullscreen;
+    fn into_wfullscreen(&self) -> WindowFullscreenSt;
+    fn into_wnotify(&self) -> WindowNotifySt;
     fn into_wshow(&self) -> WindowShowSt;
     fn into_whide(&self) -> WindowHideSt;
 }
@@ -99,8 +107,12 @@ impl CmdParser for String {
         st
     }
 
-    fn into_wfullscreen(&self) -> WindowFullscreen{
-        let st: WindowFullscreen = serde_json::from_str(&self).unwrap();
+    fn into_wfullscreen(&self) -> WindowFullscreenSt {
+        let st: WindowFullscreenSt = serde_json::from_str(&self).unwrap();
+        st
+    }
+    fn into_wnotify(&self) -> WindowNotifySt {
+        let st: WindowNotifySt = serde_json::from_str(&self).unwrap();
         st
     }
     fn into_wshow(&self) -> WindowShowSt{

@@ -5,6 +5,7 @@ var Cmds = {
     WindowHide : "windowHide",
     WindowShow : "windowShow",
     WindowExit : "windowExit",
+    WindowNotify : "windowNotify",
     WindowFullscreen : "windowFullscreen"
 };
 // receiver
@@ -68,6 +69,11 @@ Cmd = (function () {
         exit: function (callback) {
             this.type = Cmds.WindowExit;
         },
+        // notify: function (html) {
+        //     this.type = Cmds.WindowNotify;
+        //     let query = JSON.stringify({html: html});
+        //     request_to_rust(this.type, query);
+        // },
         // show: function (name, html) {
         //     this.type = Cmds.WindowShow;
         //     let query = JSON.stringify({w_name: name, html: html});
@@ -88,17 +94,9 @@ Cmd = (function () {
         }
     };
     // Todo: 面倒くさいので今度実装します。
-    /** HTTP **/
-    var http = function () {};
-    http.prototype = {
-        dummy: function () {
-
-        }
-    };
     return {
         data: data,
-        window: window,
-        http: http
+        window: window
     };
 })();
 
