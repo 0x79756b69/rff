@@ -10,6 +10,7 @@ use web_view::*;
 use crate::structs::Cmd::*;
 use crate::handler::window_handler::*;
 use crate::handler::data_handler::*;
+use crate::handler::sql_handler::*;
 
 #[macro_use]
 extern crate serde_derive;
@@ -37,6 +38,7 @@ pub fn make_gui<'a>(cfg: AppConfig, html: &'a str, title: &'a str) -> WebView<'a
                     DataInsert {param} => d_insert(webview, param, db_path.clone()),
                     DataFetch {param} =>  d_fetch(webview, param, db_path.clone()),
                     DataDelete {param} =>  d_delete(webview, param, db_path.clone()),
+                    SqlQuery {param} =>  sql_query(webview, param),
                     WindowFullscreen {param} => w_fullscreen(webview, param),
                     // WindowNotify {param} => Ok(w_notify(&mut notify, param)),
                     // WindowShow {param} =>  w_show(webview, param),

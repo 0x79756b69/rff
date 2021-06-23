@@ -36,6 +36,14 @@ pub struct DataFetchSt {
 pub struct DataDeleteSt {
     pub key : String
 }
+
+#[derive(Debug, Deserialize)]
+pub struct SqlQuerySt {
+    pub mysql_url: String,
+    pub stmt : String,
+    pub params : String
+}
+
 #[derive(Debug, Deserialize)]
 pub struct WindowFullscreenSt {
     pub bool : bool
@@ -69,6 +77,9 @@ pub enum Cmd {
     DataDelete {
         param : String
     },
+    SqlQuery {
+        param : String
+    },
     WindowFullscreen {
         param : String
     },
@@ -89,6 +100,8 @@ pub trait CmdParser {
     fn into_dfet(&self) -> DataFetchSt;
     fn into_ddel(&self) -> DataDeleteSt;
 
+    fn into_sql_query(&self) -> SqlQuerySt;
+
     fn into_wfullscreen(&self) -> WindowFullscreenSt;
     fn into_wnotify(&self) -> WindowNotifySt;
     fn into_wshow(&self) -> WindowShowSt;
@@ -105,6 +118,11 @@ impl CmdParser for String {
     }
     fn into_ddel(&self) -> DataDeleteSt{
         let st: DataDeleteSt = serde_json::from_str(&self).unwrap();
+        st
+    }
+
+    fn into_sql_query(&self) -> SqlQuerySt{
+        let st: SqlQuerySt = serde_json::from_str(&self).unwrap();
         st
     }
 

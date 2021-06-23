@@ -2,6 +2,7 @@ var Cmds = {
     DataInsert : "dataInsert",
     DataFetch : "dataFetch",
     DataDelete : "dataDelete",
+    SqlQuery : "sqlQuery",
     WindowHide : "windowHide",
     WindowShow : "windowShow",
     WindowExit : "windowExit",
@@ -28,6 +29,9 @@ function receiver_from_rust(arg) {
             // alert(eval(arg.callback));
             // alert("DATA DELETE CALLED");
             break
+        case Cmds.SqlQuery:
+
+            break
         case Cmds.WindowShow:
             break
         case Cmds.WindowHide:
@@ -39,7 +43,7 @@ function receiver_from_rust(arg) {
 
 //sender
 Cmd = (function () {
-    /** DATA **/
+    /** KV DATA **/
         // 何か共通処理
     var data = function () {};
     // 各実装
@@ -47,8 +51,7 @@ Cmd = (function () {
         insert: function (key, value) {
             this.type = Cmds.DataInsert;
             let query = JSON.stringify({key: key, value: value});
-            this.receive = request_to_rust(this.type, query);
-            return this.receive;
+            request_to_rust(this.type, query);
         },
         select: function (key, callback, v) {
             this.type = Cmds.DataFetch;
@@ -62,6 +65,16 @@ Cmd = (function () {
             request_to_rust(this.type, query);
         }
     };
+    /** MYSQL DATA **/
+    var sql = function () {};
+    sql.prototype = {
+        query: function (db_url, stmt, params) {
+            this.type = Cmds.SqlQuery;
+            let query = JSON.stringify({mysql_url: db_url, stmt: stmt, params: params});
+            request_to_rust(this.type, query);
+        }
+    };
+
     /** WINDOW **/
 
     var window = function () {};
@@ -96,6 +109,7 @@ Cmd = (function () {
     // Todo: 面倒くさいので今度実装します。
     return {
         data: data,
+        sql: sql,
         window: window
     };
 })();
