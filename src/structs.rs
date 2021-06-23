@@ -29,6 +29,7 @@ pub struct DataInsertSt {
 #[derive(Debug, Deserialize)]
 pub struct DataFetchSt {
     pub callback : String,
+    pub value : String, // Callbackに渡すvalue
     pub key : String
 }
 #[derive(Debug, Deserialize)]

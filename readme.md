@@ -35,7 +35,8 @@ fn main() {
             b: 213,
             a: 225
         },
-        window_frameless: false
+        window_frameless: false,
+      db_path: "db_path".to_string()
     };
   // ウィンドウの作成
   let mut wv = rff::make_gui(config, HTML, "Title");
@@ -79,10 +80,12 @@ d.insert("KEY", "VALUE");
 
 #### select
 ```js
-let callbackfn = function(data) {
+let callbackfn = function(data, param) {
     alert(data); // Alert a value from DB
+    alert(param); // Alert a passed value
 }
-d.select("KEY", callbackfn);
+let value = "Hi, this is passed value";
+d.select("KEY", callbackfn, value);
 ```
 
 #### delete
@@ -113,6 +116,7 @@ tauriの[examples](https://github.com/tauri-apps/examples/tree/dev/tauri/communi
 
 ## Notice & ToDo
 このソフトウェアはまだ開発段階です。
+- 暇なときに、パニックをおこなさいようにします。
 - 暇なときに、次のAPIを追加する予定です。
     - ウィンドウ関係
 - コードを整理する

@@ -22,7 +22,7 @@ function receiver_from_rust(arg) {
             let param = JSON.parse(arg.param);
             var wrap = s => "{ return " + arg.callback + " };" //return the block having function expression
             var func = new Function( wrap(arg.callback) );
-            func.call(null).call(null, param.v ); //invoke the function using arguments
+            func.call(null).call(null, param.v, param.params ); //invoke the function using arguments
             break
         case Cmds.DataDelete:
             // alert(eval(arg.callback));
@@ -50,10 +50,10 @@ Cmd = (function () {
             this.receive = request_to_rust(this.type, query);
             return this.receive;
         },
-        select: function (key, callback) {
+        select: function (key, callback, v) {
             this.type = Cmds.DataFetch;
             // Todo: storage_name いらない。
-            let query = JSON.stringify({key: key, callback : callback.toString()});
+            let query = JSON.stringify({key: key, callback : callback.toString(), value: v});
             request_to_rust(this.type, query);
         },
         delete: function (key) {
@@ -109,12 +109,14 @@ function request_to_rust(ctype, query) {
 // webview.exit()
 //
 function dummy() {
-    // let proc = function(data) {
+    // let proc = function(data, value) {
     //     alert(data);
+    //     alert(value);
     // }
     // let d = new Cmd.data();
     // d.insert("key", "vAALUE");
-    // d.select("key", proc);
+    // let v = "Hello!";
+    // d.select("key", proc, v);
     // d.delete("key");
     //
     // let w = new Cmd.window();
