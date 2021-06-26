@@ -21,8 +21,8 @@ function receiver_from_rust(arg) {
             break
         case Cmds.DataFetch:
             let param = JSON.parse(arg.param);
-            var wrap = s => "{ return " + arg.callback + " };" //return the block having function expression
-            var func = new Function( wrap(arg.callback) );
+            var wrap = s => "{ return " + param.cb + " };" //return the block having function expression
+            var func = new Function( wrap(param.cb) );
             func.call(null).call(null, param.v, param.params ); //invoke the function using arguments
             break
         case Cmds.DataDelete:

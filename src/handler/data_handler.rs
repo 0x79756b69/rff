@@ -12,7 +12,6 @@ pub fn d_insert(wv: &mut WebView<()>, cmd: String, db: String) -> WVResult {
     db.insert(st.key.as_bytes(), st.value.as_bytes());
     let val = CmdSend{
         t: "dataInsert".to_string(),
-        callback: None,
         param: None
     };
     let result = wv.eval(&format!("receiver_from_rust({})", serde_json::to_string(&val).unwrap()));
@@ -28,11 +27,10 @@ pub fn d_fetch(wv: &mut WebView<()>, cmd: String, db: String) -> WVResult {
         Ok(Some(res)) => {re = String::from_utf8(res.to_vec()).unwrap();}
         _ => {re = String::from("");}
     }
-    let v = json!({"v": re, "params": st.value});
+    let v = json!({"v": re, "params": st.value, "cb": st.callback});
     // todo: CmdSend builder
     let val = CmdSend{
         t: "dataFetch".to_string(),
-        callback: Option::from(st.callback),
         param: Option::from(serde_json::to_string(&v).unwrap())
     };
     let result = wv.eval(&format!("receiver_from_rust({})", serde_json::to_string(&val).unwrap()));
@@ -45,7 +43,6 @@ pub fn d_delete(wv: &mut WebView<()>, cmd: String, db: String) -> WVResult {
     db.remove(st.key);
     let val = CmdSend{
         t: "dataDelete".to_string(),
-        callback: None,
         param: None
     };
     let result = wv.eval(&format!("receiver_from_rust({})", serde_json::to_string(&val).unwrap()));

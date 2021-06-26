@@ -14,7 +14,6 @@ pub fn w_fullscreen(wv: &mut WebView<()>, cmd: String) -> WVResult {
     }
     let val = CmdSend{
         t: "windowFullscreen".to_string(),
-        callback: None,
         param: None
     };
     let result = wv.eval(&format!("receiver_from_rust({})", serde_json::to_string(&val).unwrap()));
@@ -25,7 +24,6 @@ pub fn w_fullscreen(wv: &mut WebView<()>, cmd: String) -> WVResult {
 pub fn w_change_title(wv: &mut WebView<()>, cmd: String) -> WVResult {
     let val = CmdSend{
         t: "windowChangetitle".to_string(),
-        callback: None,
         param: None
     };
     let result = wv.eval(&format!("receiver_from_rust({})", serde_json::to_string(&val).unwrap()));
@@ -34,7 +32,6 @@ pub fn w_change_title(wv: &mut WebView<()>, cmd: String) -> WVResult {
 pub fn w_exit(wv: &mut WebView<()>, cmd: String) -> WVResult {
     let val = CmdSend{
         t: "windowExit".to_string(),
-        callback: None,
         param: None
     };
     let result = wv.eval(&format!("receiver_from_rust({})", serde_json::to_string(&val).unwrap()));
@@ -51,7 +48,6 @@ pub fn w_show(wv: &mut WebView<()>, cmd: String) -> WVResult {
     wv.set_visible(true);
     let val = CmdSend{
         t: "windowShow".to_string(),
-        callback: None,
         param: None
     };
     let result = wv.eval(&format!("receiver_from_rust({})", serde_json::to_string(&val).unwrap()));
@@ -62,7 +58,6 @@ pub fn w_hide(wv: &mut WebView<()>, cmd: String) -> WVResult {
     wv.set_visible(false);
     let val = CmdSend{
         t: "windowHide".to_string(),
-        callback: None,
         param: None
     };
     let result = wv.eval(&format!("receiver_from_rust({})", serde_json::to_string(&val).unwrap()));

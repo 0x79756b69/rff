@@ -18,7 +18,6 @@ pub struct AppConfig {
 #[derive(Debug, Serialize)]
 pub struct CmdSend {
     pub t : String, // Todo : もうこれとか最悪。
-    pub callback: Option<String>,
     pub param: Option<String>,
 }
 #[derive(Debug, Deserialize)]
