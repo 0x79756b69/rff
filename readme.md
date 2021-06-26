@@ -66,8 +66,24 @@ fn main() {
 - 詳細は*examples*ディレクトリを参照。
 
 ## 提供API
+### sql
+外部MySQL、MariaDBサーバーへのクエリ。
+```js
+let sql = new Cmd.sql();
+let callbackfn = function(data, param) {
+  alert(data); // Alert a value from DB
+  alert(param); // Alert a passed value
+}
+sql.query(
+        "mysql://{USER}:{PASSWORD}@{SERVER}:{PORT}/{DB_NAME}",
+        "SELECT * FROM users WHERE user_id=? AND password = ?",
+        ["admin", "password_123"],
+        callbackfn,
+        "callback params")
+```
+
 ### data
-KVストア。
+組み込み型のKVストア。
 - 追加
 - 選択
 - 削除
