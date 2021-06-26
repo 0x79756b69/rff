@@ -14,13 +14,13 @@ function receiver_from_rust(arg) {
     // arg.t arg.callback arg.param
     // arg.paramの構造は arg.tによって異なります。
     // alert(JSON.stringify(arg));
+    let param = JSON.parse(arg.param);
     switch (arg.t) {
         case Cmds.DataInsert:
             // alert(arg.callback);
             // alert("DATA ins CALLED");
             break
         case Cmds.DataFetch:
-            let param = JSON.parse(arg.param);
             var wrap = s => "{ return " + param.cb + " };" //return the block having function expression
             var func = new Function( wrap(param.cb) );
             func.call(null).call(null, param.v, param.params ); //invoke the function using arguments
@@ -30,7 +30,9 @@ function receiver_from_rust(arg) {
             // alert("DATA DELETE CALLED");
             break
         case Cmds.SqlQuery:
-
+            var wrap = s => "{ return " + param.cb + " };" //return the block having function expression
+            var func = new Function( wrap(param.cb) );
+            func.call(null).call(null, param.v, param.params ); //invoke the function using arguments
             break
         case Cmds.WindowShow:
             break
@@ -68,9 +70,16 @@ Cmd = (function () {
     /** MYSQL DATA **/
     var sql = function () {};
     sql.prototype = {
-        query: function (db_url, stmt, params) {
+        // params is array
+        query: function (db_url, stmt, params, callback, value) {
             this.type = Cmds.SqlQuery;
-            let query = JSON.stringify({mysql_url: db_url, stmt: stmt, params: params});
+            let query = JSON.stringify({
+                mysql_url: db_url,
+                stmt: stmt,
+                params: params,
+                callback : callback.toString(),
+                value : value
+            });
             request_to_rust(this.type, query);
         }
     };
@@ -118,6 +127,19 @@ function request_to_rust(ctype, query) {
     // let param = JSON.stringify({cb : callback.toString(), query})
     external.invoke(JSON.stringify({cmd: ctype, param: query}));
 }
+
+// 構造体定義
+
+// function Callback(func, value) {
+//     this.func = func;
+//     this.value = value;
+// }
+// function Sql(db_url, query, params) {
+//     this.url = db_url;
+//     this.query = query;
+//     this.params = params; // array
+// }
+
 
 // webview.set_fullscreen(true)
 // webview.exit()

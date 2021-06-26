@@ -27,7 +27,7 @@ pub fn d_fetch(wv: &mut WebView<()>, cmd: String, db: String) -> WVResult {
         Ok(Some(res)) => {re = String::from_utf8(res.to_vec()).unwrap();}
         _ => {re = String::from("");}
     }
-    let v = json!({"v": re, "params": st.value, "cb": st.callback});
+    let v = json!({"v": re, "cb": st.callback, "params": st.value});
     // todo: CmdSend builder
     let val = CmdSend{
         t: "dataFetch".to_string(),

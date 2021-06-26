@@ -40,7 +40,9 @@ pub struct DataDeleteSt {
 pub struct SqlQuerySt {
     pub mysql_url: String,
     pub stmt : String,
-    pub params : String
+    pub params : Vec<String>,
+    pub callback : String,
+    pub value : String, // Callbackに渡すvalue
 }
 
 #[derive(Debug, Deserialize)]
