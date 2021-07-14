@@ -3,6 +3,7 @@ var Cmds = {
     DataFetch : "dataFetch",
     DataDelete : "dataDelete",
     SqlQuery : "sqlQuery",
+    FileSave : "fileSave",
     WindowHide : "windowHide",
     WindowShow : "windowShow",
     WindowExit : "windowExit",
@@ -34,6 +35,17 @@ function receiver_from_rust(arg) {
             var func = new Function( wrap(param.cb) );
             func.call(null).call(null, param.v, param.params ); //invoke the function using arguments
             break
+        case Cmds.FileSave:
+            if (param === "Ok") {
+
+            }else {
+
+            }
+            // var wrap = s => "{ return " + param.cb + " };" //return the block having function expression
+            // var func = new Function( wrap(param.cb) );
+            // func.call(null).call(null, param.v, param.params ); //invoke the function using arguments
+            break
+
         case Cmds.WindowShow:
             break
         case Cmds.WindowHide:
@@ -84,6 +96,18 @@ Cmd = (function () {
         }
     };
 
+    /** FILE DATA **/
+    var file = function () {};
+    file.prototype = {
+        // params is array
+        save: function (file_path, file_data) {
+            this.type = Cmds.FileSave;
+            let query = JSON.stringify({ file_path, file_data });
+            request_to_rust(this.type, query);
+        }
+    };
+
+
     /** WINDOW **/
 
     var window = function () {};
@@ -119,6 +143,7 @@ Cmd = (function () {
     return {
         data: data,
         sql: sql,
+        file: file,
         window: window
     };
 })();

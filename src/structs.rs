@@ -46,6 +46,12 @@ pub struct SqlQuerySt {
 }
 
 #[derive(Debug, Deserialize)]
+pub struct FileSaveSt {
+    pub file_path : String,
+    pub file_data : String
+}
+
+#[derive(Debug, Deserialize)]
 pub struct WindowFullscreenSt {
     pub bool : bool
 }
@@ -81,6 +87,9 @@ pub enum Cmd {
     SqlQuery {
         param : String
     },
+    FileSave {
+        param : String
+    },
     WindowFullscreen {
         param : String
     },
@@ -103,6 +112,8 @@ pub trait CmdParser {
 
     fn into_sql_query(&self) -> SqlQuerySt;
 
+    fn into_fsave(&self) -> FileSaveSt;
+
     fn into_wfullscreen(&self) -> WindowFullscreenSt;
     fn into_wnotify(&self) -> WindowNotifySt;
     fn into_wshow(&self) -> WindowShowSt;
@@ -124,6 +135,11 @@ impl CmdParser for String {
 
     fn into_sql_query(&self) -> SqlQuerySt{
         let st: SqlQuerySt = serde_json::from_str(&self).unwrap();
+        st
+    }
+
+    fn into_fsave(&self) -> FileSaveSt{
+        let st: FileSaveSt = serde_json::from_str(&self).unwrap();
         st
     }
 

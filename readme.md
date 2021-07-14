@@ -66,6 +66,14 @@ fn main() {
 - 詳細は*examples*ディレクトリを参照。
 
 ## 提供API
+
+### file
+Notice: Not safety.
+```js
+let file = new Cmd.file();
+file.save("filepath/filename.txt", "DATA")
+```
+
 ### sql
 外部MySQL、MariaDBサーバーへのクエリ。
 ```js

@@ -11,6 +11,7 @@ use crate::structs::Cmd::*;
 use crate::handler::window_handler::*;
 use crate::handler::data_handler::*;
 use crate::handler::sql_handler::*;
+use crate::handler::file_handler::f_save;
 
 #[macro_use]
 extern crate serde_derive;
@@ -39,6 +40,7 @@ pub fn make_gui<'a>(cfg: AppConfig, html: &'a str, title: &'a str) -> WebView<'a
                     DataFetch {param} =>  d_fetch(webview, param, db_path.clone()),
                     DataDelete {param} =>  d_delete(webview, param, db_path.clone()),
                     SqlQuery {param} =>  sql_query(webview, param),
+                    FileSave {param} => f_save(webview, param),
                     WindowFullscreen {param} => w_fullscreen(webview, param),
                     // WindowNotify {param} => Ok(w_notify(&mut notify, param)),
                     // WindowShow {param} =>  w_show(webview, param),
