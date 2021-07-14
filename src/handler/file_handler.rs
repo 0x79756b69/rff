@@ -1,7 +1,7 @@
 use web_view::{WebView, WVResult};
 use crate::structs::{CmdParser, CmdSend};
 
-use native_dialog::{FileDialog, MessageDialog, MessageType};
+// use native_dialog::{FileDialog, MessageDialog, MessageType};
 use std::path::PathBuf;
 use std::fs::File;
 use std::io::Write;
